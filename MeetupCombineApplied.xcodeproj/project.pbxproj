@@ -15,7 +15,6 @@
 		FB0E11102469B9F700FCDAC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB0E110F2469B9F700FCDAC2 /* Assets.xcassets */; };
 		FB0E11132469B9F700FCDAC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB0E11112469B9F700FCDAC2 /* LaunchScreen.storyboard */; };
 		FB0E111E2469B9F800FCDAC2 /* MeetupCombineAppliedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0E111D2469B9F800FCDAC2 /* MeetupCombineAppliedTests.swift */; };
-		FB0E11292469BA4100FCDAC2 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0E11282469BA4100FCDAC2 /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +40,6 @@
 		FB0E11192469B9F800FCDAC2 /* MeetupCombineAppliedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetupCombineAppliedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB0E111D2469B9F800FCDAC2 /* MeetupCombineAppliedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetupCombineAppliedTests.swift; sourceTree = "<group>"; };
 		FB0E111F2469B9F800FCDAC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FB0E11282469BA4100FCDAC2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +71,6 @@
 		02C49150246CB5D600C632E9 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				FB0E11282469BA4100FCDAC2 /* LoginView.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -224,7 +221,6 @@
 			files = (
 				FB0E110B2469B9F400FCDAC2 /* LoginUIKitViewController.swift in Sources */,
 				FB0E11072469B9F400FCDAC2 /* AppDelegate.swift in Sources */,
-				FB0E11292469BA4100FCDAC2 /* LoginView.swift in Sources */,
 				02C49152246CB5FE00C632E9 /* LoginViewModel.swift in Sources */,
 				FB0E11092469B9F400FCDAC2 /* SceneDelegate.swift in Sources */,
 			);
