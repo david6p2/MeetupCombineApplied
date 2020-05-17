@@ -1,78 +1,56 @@
-import SwiftUI
-import Combine
+import Foundation
 
-final class LoginViewModel: ObservableObject {
-    private var cancellable = Set<AnyCancellable>()
-    
-    @Published var mail: String = ""
-    @Published var password: String = ""
-    @Published var passwordAgain: String = ""
-    
-    var mailMessage: String = ""
-    var passwordMessage: String = ""
+final class LoginViewModel {
+    var mail: String = "" {
+        didSet {
+            updateUI()
+        }
+    }
+    var password: String = "" {
+        didSet {
+            updateUI()
+        }
+    }
+    var passwordAgain: String = "" {
+        didSet {
+            updateUI()
+        }
+    }
+
+    var mailMessage: String = "Your mail should be longer than 3 characters"
+    var passwordMessage: String = "Validate your passwords are equal and contains at leats 6 characters"
     var enabledContinue: Bool = false
-    
-    init() {
-        isLoginInfoValidPublisher
-            .receive(on: RunLoop.main)
-            .assign(to: \.enabledContinue, on: self)
-            .store(in: &cancellable)
-        
-        isValidUserNamePublisher
-            .receive(on: RunLoop.main)
-            .map { $0 ? "" : "Your mail should be longer than 3 characters" }
-            .assign(to: \.mailMessage, on: self)
-            .store(in: &cancellable)
-        
-        isPasswordValidPublisher
-            .receive(on: RunLoop.main)
-            .map { $0 ? "" : "Validate your passwords are equal and contains at leats 6 characters" }
-            .assign(to: \.passwordMessage, on: self)
-            .store(in: &cancellable)
-    }
-}
 
-private extension LoginViewModel {
-    var isValidUserNamePublisher: AnyPublisher<Bool, Never> {
-        $mail
-            .removeDuplicates()
-            .map { $0.count > 2 }
-            .eraseToAnyPublisher()
+    var reloadUI: ((String, String, Bool) -> Void)?
+
+    func updateUI() {
+        mailMessage = isValidUserName ? "" : "Your mail should be longer than 3 characters"
+        passwordMessage = isPasswordValid ? "" : "Validate your passwords are equal and contains at leats 6 characters"
+        enabledContinue = isLoginInfoValid
+        reloadUI?(mailMessage, passwordMessage, enabledContinue)
     }
-    
-    var isPasswordNotEmptyPublisher: AnyPublisher<Bool, Never> {
-        $password
-            .removeDuplicates()
-            .map { !$0.isEmpty }
-            .eraseToAnyPublisher()
+
+    var isValidUserName: Bool {
+        mail.count > 3
     }
-    
-    var arePasswordEqualPublisher: AnyPublisher<Bool, Never> {
-        Publishers.CombineLatest($password, $passwordAgain)
-            .map { $0 == $1 }
-            .eraseToAnyPublisher()
+
+    var isPasswordNotEmpty: Bool {
+        !password.isEmpty
     }
-    
-    var isPasswordStrongPublisher: AnyPublisher<Bool, Never> {
-        $password
-            .removeDuplicates()
-            .map { $0.count } // use what ever algorithm to check strenght
-            .map { $0 >= 5 }
-            .eraseToAnyPublisher()
+
+    var arePasswordEqual: Bool {
+        password == passwordAgain
     }
-    
-    var isPasswordValidPublisher: AnyPublisher<Bool, Never> {
-        Publishers.CombineLatest3(isPasswordNotEmptyPublisher,
-                                  arePasswordEqualPublisher,
-                                  isPasswordStrongPublisher)
-            .map { $0 && $1 && $2 }
-            .eraseToAnyPublisher()
+
+    var isPasswordStrong: Bool {
+        password.count >= 6
     }
-    
-    var isLoginInfoValidPublisher: AnyPublisher<Bool, Never> {
-        Publishers.CombineLatest(isValidUserNamePublisher,
-                                 isPasswordValidPublisher)
-            .map { $0 && $1 }
-            .eraseToAnyPublisher()
+
+    var isPasswordValid: Bool {
+        isPasswordNotEmpty && arePasswordEqual && isPasswordStrong
+    }
+
+    var isLoginInfoValid: Bool {
+        isValidUserName && isPasswordValid
     }
 }
